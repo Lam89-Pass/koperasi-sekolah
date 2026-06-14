@@ -95,3 +95,4 @@ public class Student {
         return name + " (" + nis + ") - " + studentClass;
     }
 }
+

@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class IconUtils {
-    
+
     public static Icon getIcon(String type, int size, Color color) {
         return new Icon() {
             @Override
@@ -67,15 +67,15 @@ public class IconUtils {
                         }
                         break;
                     case "koperasi":
-                        // Two hands shaking / cooperation symbol
+
                         g2.setStroke(new BasicStroke(Math.max(2f, size / 10f), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                        // Left hand arc
+
                         g2.drawArc((int)(s*0.05), (int)(s*0.25), (int)(s*0.5), (int)(s*0.5), -30, 180);
-                        // Right hand arc
+
                         g2.drawArc((int)(s*0.45), (int)(s*0.25), (int)(s*0.5), (int)(s*0.5), 30, -180);
-                        // Top connecting arc (roof)
+
                         g2.drawArc((int)(s*0.15), (int)(s*0.05), (int)(s*0.7), (int)(s*0.4), 30, 120);
-                        // Bottom line
+
                         g2.drawLine((int)(s*0.2), (int)(s*0.85), (int)(s*0.8), (int)(s*0.85));
                         break;
                     case "shield":
@@ -209,7 +209,7 @@ public class IconUtils {
                     default:
                         g2.drawRect((int)(s*0.2), (int)(s*0.2), (int)(s*0.6), (int)(s*0.6));
                 }
-                
+
                 g2.dispose();
             }
 
@@ -221,3 +221,4 @@ public class IconUtils {
         };
     }
 }
+

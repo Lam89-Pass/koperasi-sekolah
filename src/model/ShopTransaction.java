@@ -45,7 +45,7 @@ public class ShopTransaction extends Transaction implements PrintableReceipt {
             if (studentId == null) {
                 throw new SQLException("Transaksi dengan tabungan memerlukan anggota siswa!");
             }
-            
+
             String checkSql = "SELECT saldo_tabungan, nama, nis FROM siswa WHERE id = ?";
             try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
                 checkStmt.setInt(1, studentId);
@@ -78,7 +78,7 @@ public class ShopTransaction extends Transaction implements PrintableReceipt {
         for (Map.Entry<Product, Integer> entry : items.entrySet()) {
             Product product = entry.getKey();
             int quantity = entry.getValue();
-            
+
             String stockSql = "SELECT stok, nama_barang FROM barang WHERE id = ?";
             try (PreparedStatement stockStmt = conn.prepareStatement(stockSql)) {
                 stockStmt.setInt(1, product.getId());
@@ -123,7 +123,7 @@ public class ShopTransaction extends Transaction implements PrintableReceipt {
             insertShopStmt.setDouble(2, amount);
             insertShopStmt.setString(3, paymentMethod.toUpperCase());
             insertShopStmt.setTimestamp(4, timestamp);
-            
+
             int affectedRows = insertShopStmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Gagal mencatat transaksi toko.");
@@ -138,15 +138,15 @@ public class ShopTransaction extends Transaction implements PrintableReceipt {
 
         String insertDetailSql = "INSERT INTO detail_transaksi_toko (transaksi_toko_id, barang_id, jumlah, harga_satuan, subtotal) VALUES (?, ?, ?, ?, ?)";
         String updateStockSql = "UPDATE barang SET stok = stok - ? WHERE id = ?";
-        
+
         try (PreparedStatement insertDetailStmt = conn.prepareStatement(insertDetailSql);
              PreparedStatement updateStockStmt = conn.prepareStatement(updateStockSql)) {
-            
+
             for (Map.Entry<Product, Integer> entry : items.entrySet()) {
                 Product product = entry.getKey();
                 int quantity = entry.getValue();
                 double subtotal = product.getPrice() * quantity;
-                
+
                 insertDetailStmt.setInt(1, this.id);
                 insertDetailStmt.setInt(2, product.getId());
                 insertDetailStmt.setInt(3, quantity);
@@ -158,7 +158,7 @@ public class ShopTransaction extends Transaction implements PrintableReceipt {
                 updateStockStmt.setInt(2, product.getId());
                 updateStockStmt.addBatch();
             }
-            
+
             insertDetailStmt.executeBatch();
             updateStockStmt.executeBatch();
         }
@@ -182,12 +182,12 @@ public class ShopTransaction extends Transaction implements PrintableReceipt {
         receipt.append("----------------------------------------\n");
         receipt.append(String.format("%-18s %3s %8s %9s\n", "Barang", "Qty", "Harga", "Subtotal"));
         receipt.append("----------------------------------------\n");
-        
+
         for (Map.Entry<Product, Integer> entry : items.entrySet()) {
             Product product = entry.getKey();
             int qty = entry.getValue();
             double sub = product.getPrice() * qty;
-            
+
             String name = product.getName();
             if (name.length() > 18) {
                 name = name.substring(0, 15) + "...";
@@ -205,3 +205,4 @@ public class ShopTransaction extends Transaction implements PrintableReceipt {
         return receipt.toString();
     }
 }
+

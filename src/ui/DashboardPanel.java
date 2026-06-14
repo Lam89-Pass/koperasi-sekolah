@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DashboardPanel extends JPanel {
     private MainFrame mainFrame;
-    
+
     private JLabel lblTotalMembers;
     private JLabel lblTotalSavings;
     private JLabel lblTotalSales;
@@ -28,14 +28,12 @@ public class DashboardPanel extends JPanel {
     private JTable tblRecentActivities;
     private DefaultTableModel tableModel;
 
-    // Pagination
     private int currentPage = 1;
     private int totalPages = 1;
     private static final int ROWS_PER_PAGE = 10;
     private JPanel paginationPanel;
     private List<Object[]> allTransactions = new ArrayList<>();
 
-    // Chart data (dynamic)
     private double[] chartTabunganData = new double[12];
     private double[] chartPenarikanData = new double[12];
     private double[] chartTransaksiData = new double[12];
@@ -56,7 +54,7 @@ public class DashboardPanel extends JPanel {
         ModernCard cardMembers = createStatCard("<html>TOTAL ANGGOTA<br>SISWA</html>", "0 Siswa", "users", new Color(224, 242, 254), new Color(2, 132, 199));
         lblTotalMembers = (JLabel) cardMembers.getClientProperty("valueLabel");
         lblSubMembers = (JLabel) cardMembers.getClientProperty("subLabel");
-        
+
         ModernCard cardSavings = createStatCard("<html>TOTAL KAS<br>TABUNGAN</html>", "Rp0", "wallet", new Color(220, 252, 231), new Color(22, 163, 74));
         lblTotalSavings = (JLabel) cardSavings.getClientProperty("valueLabel");
         lblSubSavings = (JLabel) cardSavings.getClientProperty("subLabel");
@@ -73,13 +71,12 @@ public class DashboardPanel extends JPanel {
         topGrid.add(cardSavings);
         topGrid.add(cardSales);
         topGrid.add(cardTrans);
-        
+
         add(topGrid, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel(new BorderLayout(20, 0));
         centerPanel.setOpaque(false);
 
-        // Activity Table Panel
         JPanel activityPanel = new JPanel(new BorderLayout());
         activityPanel.setBackground(Color.WHITE);
         activityPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -94,7 +91,7 @@ public class DashboardPanel extends JPanel {
         activityTitle.setIconTextGap(10);
         activityTitle.setFont(new Font("Segoe UI", Font.BOLD, 15));
         activityTitle.setForeground(new Color(30, 41, 59));
-        
+
         activityHeader.add(activityTitle, BorderLayout.WEST);
         activityHeader.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
         activityPanel.add(activityHeader, BorderLayout.NORTH);
@@ -132,7 +129,6 @@ public class DashboardPanel extends JPanel {
         scrollPane.getViewport().setBackground(Color.WHITE);
         activityPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Pagination panel (dynamic)
         paginationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
         paginationPanel.setOpaque(false);
         paginationPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
@@ -140,14 +136,13 @@ public class DashboardPanel extends JPanel {
 
         centerPanel.add(activityPanel, BorderLayout.CENTER);
 
-        // Right panel: Quick Actions + Chart
         JPanel rightPanel = new JPanel(new GridLayout(2, 1, 0, 20));
         rightPanel.setOpaque(false);
         rightPanel.setPreferredSize(new Dimension(280, getHeight()));
 
         JPanel quickActionPanel = new JPanel(new BorderLayout());
         quickActionPanel.setOpaque(false);
-        
+
         JLabel actionsTitle = new JLabel("Aksi Cepat");
         actionsTitle.setIcon(IconUtils.getIcon("dashboard", 16, new Color(30, 41, 59)));
         actionsTitle.setIconTextGap(10);
@@ -167,7 +162,6 @@ public class DashboardPanel extends JPanel {
         quickActionPanel.add(btnContainer, BorderLayout.CENTER);
         rightPanel.add(quickActionPanel);
 
-        // Chart card
         JPanel chartCard = new JPanel(new BorderLayout());
         chartCard.setBackground(Color.WHITE);
         chartCard.setBorder(BorderFactory.createCompoundBorder(
@@ -180,8 +174,7 @@ public class DashboardPanel extends JPanel {
         JLabel chartTitle = new JLabel("Ringkasan Grafik");
         chartTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
         chartTitle.setForeground(new Color(30, 41, 59));
-        
-        // Build dynamic month selector
+
         comboChartPeriod = new JComboBox<>();
         comboChartPeriod.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         comboChartPeriod.setBackground(Color.WHITE);
@@ -191,7 +184,7 @@ public class DashboardPanel extends JPanel {
             loadChartData();
             if (chartBody != null) chartBody.repaint();
         });
-        
+
         chartHeader.add(chartTitle, BorderLayout.WEST);
         chartHeader.add(comboChartPeriod, BorderLayout.EAST);
         chartCard.add(chartHeader, BorderLayout.NORTH);
@@ -202,12 +195,11 @@ public class DashboardPanel extends JPanel {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
+
                 int w = getWidth();
                 int h = getHeight() - 40;
                 if (h <= 0 || w <= 0) return;
-                
-                // Grid lines
+
                 g2.setColor(new Color(241, 245, 249));
                 g2.setStroke(new BasicStroke(1f));
                 for (int i = 0; i <= 4; i++) {
@@ -220,7 +212,6 @@ public class DashboardPanel extends JPanel {
                     g2.setColor(new Color(241, 245, 249));
                 }
 
-                // X-axis labels
                 g2.setColor(new Color(148, 163, 184));
                 g2.setFont(new Font("Segoe UI", Font.PLAIN, 9));
                 int numPoints = chartLabels.length;
@@ -262,7 +253,7 @@ public class DashboardPanel extends JPanel {
         for (int i = 0; i < 12; i++) {
             LocalDate d = now.minusMonths(i);
             String label = d.format(formatter);
-            // Capitalize first letter
+
             label = label.substring(0, 1).toUpperCase() + label.substring(1);
             comboChartPeriod.addItem(label);
         }
@@ -369,7 +360,7 @@ public class DashboardPanel extends JPanel {
         iconPanel.setLayout(new GridBagLayout());
         JLabel lblIcon = new JLabel(IconUtils.getIcon(iconType, 20, iconFg));
         iconPanel.add(lblIcon);
-        
+
         card.add(iconPanel, BorderLayout.WEST);
 
         JPanel textContainer = new JPanel(new GridLayout(3, 1, 0, 2));
@@ -390,16 +381,14 @@ public class DashboardPanel extends JPanel {
         textContainer.add(titleLabel);
         textContainer.add(valueLabel);
         textContainer.add(subLabel);
-        
+
         card.add(textContainer, BorderLayout.CENTER);
-        
+
         card.putClientProperty("valueLabel", valueLabel);
         card.putClientProperty("subLabel", subLabel);
 
         return card;
     }
-
-    // =================== DATA LOADING ===================
 
     public void refreshData() {
         loadStatCards();
@@ -414,7 +403,6 @@ public class DashboardPanel extends JPanel {
             LocalDate startThisMonth = now.withDayOfMonth(1);
             LocalDate startLastMonth = startThisMonth.minusMonths(1);
 
-            // TOTAL ANGGOTA
             int totalMembers = 0;
             try (Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM siswa")) {
@@ -422,11 +410,10 @@ public class DashboardPanel extends JPanel {
             }
             lblTotalMembers.setText(totalMembers + " Siswa");
 
-            // Count members registered this month vs last month (approximate with ID)
             int membersThisMonth = 0, membersLastMonth = 0;
             try (PreparedStatement ps = conn.prepareStatement(
                     "SELECT COUNT(*) FROM siswa WHERE id > (SELECT IFNULL(MAX(id),0) - ? FROM siswa)")) {
-                // Approximate: just show total
+
                 ps.setInt(1, totalMembers);
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) membersThisMonth = rs.getInt(1);
@@ -435,7 +422,6 @@ public class DashboardPanel extends JPanel {
             lblSubMembers.setText(totalMembers + " siswa terdaftar");
             lblSubMembers.setForeground(new Color(34, 197, 94));
 
-            // TOTAL KAS TABUNGAN
             double totalSavingsNow = 0;
             try (Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery("SELECT IFNULL(SUM(saldo_tabungan),0) FROM siswa")) {
@@ -443,12 +429,10 @@ public class DashboardPanel extends JPanel {
             }
             lblTotalSavings.setText("Rp " + String.format("%,.0f", totalSavingsNow).replace(',', '.'));
 
-            // Savings change: sum deposits this month vs last month
             double savingsThisMonth = getSumForPeriod(conn, "SELECT IFNULL(SUM(jumlah),0) FROM transaksi_tabungan WHERE tanggal >= ?", startThisMonth);
             double savingsLastMonth = getSumForPeriod(conn, "SELECT IFNULL(SUM(jumlah),0) FROM transaksi_tabungan WHERE tanggal >= ? AND tanggal < ?", startLastMonth, startThisMonth);
             setPercentageLabel(lblSubSavings, savingsThisMonth, savingsLastMonth);
 
-            // OMZET TOKO
             double totalSalesAll = 0;
             try (Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery("SELECT IFNULL(SUM(total_harga),0) FROM transaksi_toko")) {
@@ -460,7 +444,6 @@ public class DashboardPanel extends JPanel {
             double salesLastMonth = getSumForPeriod(conn, "SELECT IFNULL(SUM(total_harga),0) FROM transaksi_toko WHERE tanggal >= ? AND tanggal < ?", startLastMonth, startThisMonth);
             setPercentageLabel(lblSubSales, salesThisMonth, salesLastMonth);
 
-            // TOTAL TRANSAKSI
             int totalTransAll = 0;
             try (Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM (SELECT id FROM transaksi_tabungan UNION ALL SELECT id FROM transaksi_toko) as t")) {
@@ -508,12 +491,10 @@ public class DashboardPanel extends JPanel {
         }
     }
 
-    // =================== TRANSACTION TABLE + PAGINATION ===================
-
     private void loadAllTransactions() {
         allTransactions.clear();
         try (Connection conn = DBHelper.getConnection()) {
-            // Load tabungan transactions with SIMPAN/TARIK detail
+
             String tabunganQuery = 
                 "SELECT t.tanggal, t.jenis_transaksi, s.nama, t.jumlah " +
                 "FROM transaksi_tabungan t JOIN siswa s ON t.siswa_id = s.id " +
@@ -527,14 +508,14 @@ public class DashboardPanel extends JPanel {
                     String nama = rs.getString("nama");
                     String jenis = rs.getString("jenis_transaksi");
                     double amount = rs.getDouble("jumlah");
-                    
+
                     String detail;
                     if (jenis.equals("SIMPAN")) {
                         detail = nama + " menyimpan tabungan";
                     } else {
                         detail = nama + " menarik tabungan";
                     }
-                    
+
                     allTransactions.add(new Object[]{
                         "TABUNGAN_" + jenis,
                         "<html>" + date + "<br><span style='color:gray'>" + time + "</span></html>",
@@ -545,7 +526,6 @@ public class DashboardPanel extends JPanel {
                 }
             }
 
-            // Load toko transactions with item names
             String tokoQuery = 
                 "SELECT t.tanggal, IFNULL(s.nama, 'Umum') AS nama, t.total_harga, " +
                 "GROUP_CONCAT(b.nama_barang SEPARATOR ', ') AS barang_list " +
@@ -564,14 +544,14 @@ public class DashboardPanel extends JPanel {
                     String nama = rs.getString("nama");
                     double amount = rs.getDouble("total_harga");
                     String barangList = rs.getString("barang_list");
-                    
+
                     String detail;
                     if (barangList != null && !barangList.isEmpty()) {
                         detail = nama + " beli " + barangList;
                     } else {
                         detail = nama + " belanja di toko";
                     }
-                    
+
                     allTransactions.add(new Object[]{
                         "TOKO",
                         "<html>" + date + "<br><span style='color:gray'>" + time + "</span></html>",
@@ -582,7 +562,6 @@ public class DashboardPanel extends JPanel {
                 }
             }
 
-            // Sort all by date descending (newest first)
             allTransactions.sort((a, b) -> {
                 String dateA = ((String) a[1]).replaceAll("<[^>]*>", "").trim();
                 String dateB = ((String) b[1]).replaceAll("<[^>]*>", "").trim();
@@ -601,10 +580,10 @@ public class DashboardPanel extends JPanel {
     private void showPage(int page) {
         currentPage = page;
         tableModel.setRowCount(0);
-        
+
         int start = (page - 1) * ROWS_PER_PAGE;
         int end = Math.min(start + ROWS_PER_PAGE, allTransactions.size());
-        
+
         for (int i = start; i < end; i++) {
             tableModel.addRow(allTransactions.get(i));
         }
@@ -615,20 +594,17 @@ public class DashboardPanel extends JPanel {
     private void updatePagination() {
         paginationPanel.removeAll();
 
-        // Only show pagination if more than ROWS_PER_PAGE
         if (allTransactions.size() <= ROWS_PER_PAGE) {
             paginationPanel.revalidate();
             paginationPanel.repaint();
             return;
         }
 
-        // Previous button
         JButton btnPrev = createPaginationBtn("<");
         btnPrev.setEnabled(currentPage > 1);
         btnPrev.addActionListener(e -> showPage(currentPage - 1));
         paginationPanel.add(btnPrev);
 
-        // Page number buttons
         for (int i = 1; i <= totalPages; i++) {
             final int pageNum = i;
             JButton btnPage = createPaginationBtn(String.valueOf(i));
@@ -640,7 +616,6 @@ public class DashboardPanel extends JPanel {
             btnPage.addActionListener(e -> showPage(pageNum));
             paginationPanel.add(btnPage);
 
-            // Show max 5 page buttons around current
             if (totalPages > 7 && i == 3 && currentPage > 4) {
                 JLabel dots = new JLabel("...");
                 dots.setFont(new Font("Segoe UI", Font.PLAIN, 12));
@@ -656,7 +631,6 @@ public class DashboardPanel extends JPanel {
             }
         }
 
-        // Next button
         JButton btnNext = createPaginationBtn(">");
         btnNext.setEnabled(currentPage < totalPages);
         btnNext.addActionListener(e -> showPage(currentPage + 1));
@@ -681,8 +655,6 @@ public class DashboardPanel extends JPanel {
         return btn;
     }
 
-    // =================== CHART DATA (DYNAMIC) ===================
-
     private void loadChartData() {
         int selectedIndex = comboChartPeriod != null ? comboChartPeriod.getSelectedIndex() : 0;
         LocalDate now = LocalDate.now().minusMonths(selectedIndex);
@@ -690,10 +662,9 @@ public class DashboardPanel extends JPanel {
         int month = now.getMonthValue();
         int daysInMonth = now.lengthOfMonth();
 
-        // We'll split the month into ~10 segments
         int segments = Math.min(daysInMonth, 10);
         int daysPerSegment = daysInMonth / segments;
-        
+
         chartTabunganData = new double[segments];
         chartPenarikanData = new double[segments];
         chartTransaksiData = new double[segments];
@@ -704,18 +675,17 @@ public class DashboardPanel extends JPanel {
             for (int i = 0; i < segments; i++) {
                 int startDay = i * daysPerSegment + 1;
                 int endDay = (i == segments - 1) ? daysInMonth : (i + 1) * daysPerSegment;
-                
+
                 String startDate = String.format("%d-%02d-%02d", year, month, startDay);
                 String endDateExcl = String.format("%d-%02d-%02d", year, month, Math.min(endDay + 1, daysInMonth));
                 if (endDay == daysInMonth) {
-                    // For the last segment, use the first day of next month
+
                     LocalDate nextMonth = LocalDate.of(year, month, 1).plusMonths(1);
                     endDateExcl = nextMonth.toString();
                 }
-                
+
                 chartLabels[i] = String.valueOf(startDay);
 
-                // Tabungan deposits
                 try (PreparedStatement ps = conn.prepareStatement(
                         "SELECT IFNULL(SUM(jumlah),0) FROM transaksi_tabungan WHERE jenis_transaksi='SIMPAN' AND tanggal >= ? AND tanggal < ?")) {
                     ps.setString(1, startDate);
@@ -725,7 +695,6 @@ public class DashboardPanel extends JPanel {
                     }
                 }
 
-                // Penarikan withdrawals
                 try (PreparedStatement ps = conn.prepareStatement(
                         "SELECT IFNULL(SUM(jumlah),0) FROM transaksi_tabungan WHERE jenis_transaksi='TARIK' AND tanggal >= ? AND tanggal < ?")) {
                     ps.setString(1, startDate);
@@ -735,7 +704,6 @@ public class DashboardPanel extends JPanel {
                     }
                 }
 
-                // Transaksi toko
                 try (PreparedStatement ps = conn.prepareStatement(
                         "SELECT IFNULL(SUM(total_harga),0) FROM transaksi_toko WHERE tanggal >= ? AND tanggal < ?")) {
                     ps.setString(1, startDate);
@@ -749,16 +717,13 @@ public class DashboardPanel extends JPanel {
             System.err.println("Gagal memuat data grafik: " + e.getMessage());
         }
 
-        // Find max value for chart scaling
         for (int i = 0; i < segments; i++) {
             chartMaxVal = Math.max(chartMaxVal, chartTabunganData[i]);
             chartMaxVal = Math.max(chartMaxVal, chartPenarikanData[i]);
             chartMaxVal = Math.max(chartMaxVal, chartTransaksiData[i]);
         }
-        chartMaxVal *= 1.15; // Add 15% headroom
+        chartMaxVal *= 1.15; 
     }
-
-    // =================== TABLE CELL RENDERER ===================
 
     class ActivityCellRenderer extends DefaultTableCellRenderer {
         @Override
@@ -780,7 +745,7 @@ public class DashboardPanel extends JPanel {
                 } else {
                     setIcon(IconUtils.getIcon("wallet", 18, new Color(100, 116, 139)));
                 }
-                setForeground(c.getBackground()); // hide raw text
+                setForeground(c.getBackground()); 
             } else if (column == 1) {
                 setForeground(new Color(30, 41, 59));
             } else if (column == 2) {
@@ -817,8 +782,7 @@ public class DashboardPanel extends JPanel {
                 if (value instanceof Double) {
                     double amount = (Double) value;
                     String rawType = table.getValueAt(row, 0) != null ? table.getValueAt(row, 0).toString() : "";
-                    // TOKO = minus (pengeluaran), TABUNGAN_TARIK = minus (penarikan)
-                    // TABUNGAN_SIMPAN = plus (setoran)
+
                     if (rawType.equals("TOKO") || rawType.equals("TABUNGAN_TARIK")) {
                         setForeground(new Color(239, 68, 68));
                         setText("- Rp " + String.format("%,.0f", amount).replace(',', '.'));
@@ -834,3 +798,4 @@ public class DashboardPanel extends JPanel {
         }
     }
 }
+

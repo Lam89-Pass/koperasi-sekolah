@@ -28,7 +28,6 @@ public class ProductPanel extends JPanel {
     private JLabel lblStokRendah;
     private JLabel lblTotalKategori;
 
-    // Table
     private JTable tblProducts;
     private DefaultTableModel tableModel;
     private JTextField txtSearch;
@@ -41,7 +40,6 @@ public class ProductPanel extends JPanel {
     private final int ROWS_PER_PAGE = 8;
     private List<Product> allProducts = new ArrayList<>();
 
-    // Form
     private JTextField txtKodeBarang;
     private JTextField txtNamaBarang;
     private JComboBox<String> cbKategori;
@@ -59,15 +57,14 @@ public class ProductPanel extends JPanel {
         setBackground(new Color(248, 250, 252));
         setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 
-        // ================= TOP (Stats Cards) =================
         JPanel statsPanel = new JPanel(new GridLayout(1, 4, 15, 0));
         statsPanel.setOpaque(false);
-        
+
         JPanel card1 = createStatCard("TOTAL BARANG", lblTotalBarang = new JLabel("0 Barang"), "Semua barang terdaftar", "box", new Color(239, 246, 255), new Color(59, 130, 246));
         JPanel card2 = createStatCard("STOK TERSEDIA", lblStokTersedia = new JLabel("0 Unit"), "Total stok tersedia", "box-check", new Color(220, 252, 231), new Color(34, 197, 94));
         JPanel card3 = createStatCard("STOK RENDAH", lblStokRendah = new JLabel("0 Barang"), "Perlu restock segera", "trend-up", new Color(255, 237, 213), new Color(249, 115, 22));
         JPanel card4 = createStatCard("TOTAL KATEGORI", lblTotalKategori = new JLabel("0 Kategori"), "Kategori barang", "tag", new Color(243, 232, 255), new Color(168, 85, 247));
-        
+
         statsPanel.add(card1);
         statsPanel.add(card2);
         statsPanel.add(card3);
@@ -75,14 +72,11 @@ public class ProductPanel extends JPanel {
 
         add(statsPanel, BorderLayout.NORTH);
 
-        // ================= CENTER (Split) =================
         JPanel splitPanel = new JPanel(new BorderLayout(20, 0));
         splitPanel.setOpaque(false);
 
-        // LEFT: Table
         splitPanel.add(createTablePanel(), BorderLayout.CENTER);
 
-        // RIGHT: Form
         splitPanel.add(createFormPanel(), BorderLayout.EAST);
 
         add(splitPanel, BorderLayout.CENTER);
@@ -127,14 +121,14 @@ public class ProductPanel extends JPanel {
         JPanel textHolder = new JPanel();
         textHolder.setLayout(new BoxLayout(textHolder, BoxLayout.Y_AXIS));
         textHolder.setOpaque(false);
-        
+
         JLabel lblTitle = new JLabel(title);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 11));
         lblTitle.setForeground(new Color(100, 116, 139));
-        
+
         valLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
         valLabel.setForeground(new Color(30, 41, 59));
-        
+
         JLabel lblSub = new JLabel(subtitle);
         lblSub.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         lblSub.setForeground(new Color(148, 163, 184));
@@ -153,7 +147,6 @@ public class ProductPanel extends JPanel {
         JPanel leftPanel = new JPanel(new BorderLayout(0, 15));
         leftPanel.setOpaque(false);
 
-        // Search & Filters
         JPanel filterRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         filterRow.setOpaque(false);
 
@@ -184,10 +177,9 @@ public class ProductPanel extends JPanel {
         filterRow.add(txtSearch);
         filterRow.add(cbCategoryFilter);
         filterRow.add(cbStockFilter);
-        
+
         leftPanel.add(filterRow, BorderLayout.NORTH);
 
-        // Table Card
         JPanel tableCard = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -208,7 +200,7 @@ public class ProductPanel extends JPanel {
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 7; // Only action column editable
+                return column == 7; 
             }
         };
         tblProducts = new JTable(tableModel);
@@ -244,7 +236,6 @@ public class ProductPanel extends JPanel {
         scrollPane.getViewport().setBackground(Color.WHITE);
         tableCard.add(scrollPane, BorderLayout.CENTER);
 
-        // Pagination
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
@@ -293,19 +284,16 @@ public class ProductPanel extends JPanel {
         formCard.add(formHeader);
         formCard.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Kode Barang
         formCard.add(createFormLabel("Kode Barang"));
         txtKodeBarang = createTextField("Contoh: BRG001");
         formCard.add(txtKodeBarang);
         formCard.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Nama Barang
         formCard.add(createFormLabel("Nama Barang"));
         txtNamaBarang = createTextField("Masukkan nama barang");
         formCard.add(txtNamaBarang);
         formCard.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Kategori
         formCard.add(createFormLabel("Kategori"));
         cbKategori = new JComboBox<>(new String[]{"ATK", "Seragam", "Buku", "Makanan", "Minuman", "Lainnya"});
         cbKategori.setEditable(true);
@@ -317,13 +305,12 @@ public class ProductPanel extends JPanel {
         formCard.add(cbKategori);
         formCard.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Stok & Satuan
         JPanel rowStok = new JPanel(new GridLayout(1, 2, 10, 0));
         rowStok.setOpaque(false);
         rowStok.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
         rowStok.setPreferredSize(new Dimension(Integer.MAX_VALUE, 60));
         rowStok.setAlignmentX(LEFT_ALIGNMENT);
-        
+
         JPanel pnlStok = new JPanel(); pnlStok.setLayout(new BoxLayout(pnlStok, BoxLayout.Y_AXIS)); pnlStok.setOpaque(false);
         pnlStok.add(createFormLabel("Stok"));
         spinStok = new JSpinner(new SpinnerNumberModel(0, 0, 1000000, 1));
@@ -342,13 +329,12 @@ public class ProductPanel extends JPanel {
         formCard.add(rowStok);
         formCard.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Harga Beli & Jual
         JPanel rowHarga = new JPanel(new GridLayout(1, 2, 10, 0));
         rowHarga.setOpaque(false);
         rowHarga.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
         rowHarga.setPreferredSize(new Dimension(Integer.MAX_VALUE, 60));
         rowHarga.setAlignmentX(LEFT_ALIGNMENT);
-        
+
         JPanel pnlHB = new JPanel(); pnlHB.setLayout(new BoxLayout(pnlHB, BoxLayout.Y_AXIS)); pnlHB.setOpaque(false);
         pnlHB.add(createFormLabel("Harga Beli"));
         txtHargaBeli = createTextField("Rp 0");
@@ -364,7 +350,6 @@ public class ProductPanel extends JPanel {
         formCard.add(rowHarga);
         formCard.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Minimum Stok
         formCard.add(createFormLabel("Minimum Stok"));
         spinMinStok = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
         spinMinStok.setFont(new Font("Segoe UI", Font.PLAIN, 13));
@@ -374,7 +359,6 @@ public class ProductPanel extends JPanel {
         formCard.add(spinMinStok);
         formCard.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Deskripsi
         formCard.add(createFormLabel("Deskripsi"));
         txtDeskripsi = new JTextArea(3, 20);
         txtDeskripsi.setFont(new Font("Segoe UI", Font.PLAIN, 13));
@@ -389,14 +373,12 @@ public class ProductPanel extends JPanel {
         formCard.add(Box.createRigidArea(new Dimension(0, 20)));
         formCard.add(Box.createVerticalGlue());
 
-        // Buttons
         JButton btnAdd = createBtn("+ Tambah Baru", new Color(22, 163, 74), Color.WHITE);
         JButton btnUpdate = createBtn("Simpan Perubahan", new Color(59, 130, 246), Color.WHITE);
         JButton btnDeactivate = createBtn("Nonaktif/Aktifkan", new Color(245, 158, 11), Color.WHITE);
         JButton btnRealDelete = createBtn("Hapus Permanen", new Color(220, 38, 38), Color.WHITE);
         JButton btnClear = createBtn("Reset Form", Color.WHITE, new Color(71, 85, 105));
-        
-        // Adjust clear button border
+
         btnClear.setBorder(BorderFactory.createLineBorder(new Color(226, 232, 240)));
 
         btnAdd.addActionListener(e -> saveProduct(true));
@@ -505,7 +487,7 @@ public class ProductPanel extends JPanel {
         try (Connection conn = DBHelper.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql.toString())) {
-            
+
             while (rs.next()) {
                 Product p = new Product(
                     rs.getInt("id"),
@@ -521,11 +503,11 @@ public class ProductPanel extends JPanel {
                     rs.getBoolean("is_active")
                 );
                 allProducts.add(p);
-                
+
                 totBarang++;
                 totStok += p.getStock();
                 if (p.getStock() <= p.getMinimumStock() && p.getStock() > 0) totRendah++;
-                if (p.getStock() == 0) totRendah++; // Or keep separate? The prompt says "Perlu restock", so 0 is also restock.
+                if (p.getStock() == 0) totRendah++; 
                 if (!categories.contains(p.getCategory())) categories.add(p.getCategory());
             }
         } catch (Exception e) {
@@ -537,7 +519,6 @@ public class ProductPanel extends JPanel {
         lblStokRendah.setText(totRendah + " Barang");
         lblTotalKategori.setText(categories.size() + " Kategori");
 
-        // Update category filter dropdown if needed, but we don't want to lose selection
         if (cbCategoryFilter.getItemCount() == 1 && categories.size() > 0) {
             for (String cat : categories) {
                 boolean exists = false;
@@ -556,10 +537,10 @@ public class ProductPanel extends JPanel {
     private void showPage(int page) {
         currentPage = page;
         tableModel.setRowCount(0);
-        
+
         int start = (page - 1) * ROWS_PER_PAGE;
         int end = Math.min(start + ROWS_PER_PAGE, allProducts.size());
-        
+
         for (int i = start; i < end; i++) {
             Product p = allProducts.get(i);
             String status = p.getStock() == 0 ? "Habis" : (p.getStock() <= p.getMinimumStock() ? "Stok Rendah" : "Tersedia");
@@ -572,7 +553,7 @@ public class ProductPanel extends JPanel {
                 p.getUnit(),
                 "Rp " + formatRp(p.getPrice()),
                 status,
-                p // Action column uses Product object
+                p 
             });
         }
 
@@ -711,14 +692,14 @@ public class ProductPanel extends JPanel {
             }
         }
         if (toArchive == null) return;
-        
+
         boolean toActive = !toArchive.isActive();
         String actionStr = toActive ? "mengaktifkan kembali" : "menonaktifkan";
 
         int confirm = JOptionPane.showConfirmDialog(this, 
             "Apakah Anda yakin ingin " + actionStr + " barang ini?\nBarang yang dinonaktifkan tidak akan muncul di halaman kasir.", 
             "Konfirmasi " + (toActive ? "Aktifkan" : "Nonaktifkan"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        
+
         if (confirm == JOptionPane.YES_OPTION) {
             try (Connection conn = DBHelper.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("UPDATE barang SET is_active=? WHERE id=?")) {
@@ -743,7 +724,7 @@ public class ProductPanel extends JPanel {
         int confirm = JOptionPane.showConfirmDialog(this, 
             "Apakah Anda yakin ingin menghapus barang ini secara PERMANEN?\nCatatan: Jika barang ini sudah pernah terjual, riwayat penjualannya mungkin akan bermasalah!", 
             "Konfirmasi Hapus Permanen", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
-        
+
         if (confirm == JOptionPane.YES_OPTION) {
             try (Connection conn = DBHelper.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("DELETE FROM barang WHERE id=?")) {
@@ -800,7 +781,7 @@ public class ProductPanel extends JPanel {
                     conn.commit();
                     JOptionPane.showMessageDialog(this, "Berhasil menambahkan " + qty + " stok ke " + txtNamaBarang.getText(), "Sukses", JOptionPane.INFORMATION_MESSAGE);
                     loadProducts();
-                    
+
                     for (Product p : allProducts) {
                         if (p.getId() == selectedProductId) {
                             spinStok.setValue(p.getStock());
@@ -839,7 +820,7 @@ public class ProductPanel extends JPanel {
         txtNamaBarang.setText(p.getName());
         cbKategori.setSelectedItem(p.getCategory());
         spinStok.setValue(p.getStock());
-        spinStok.setEnabled(false); // Disable stock edit on update, use Restock button instead
+        spinStok.setEnabled(false); 
         txtSatuan.setText(p.getUnit());
         txtHargaBeli.setText(String.format("%.0f", p.getPurchasePrice()));
         txtHargaJual.setText(String.format("%.0f", p.getPrice()));
@@ -851,7 +832,6 @@ public class ProductPanel extends JPanel {
         return NumberFormat.getInstance(new Locale("id", "ID")).format(val);
     }
 
-    // Custom Cell Renderer for general data
     class ProductCellRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -862,16 +842,16 @@ public class ProductPanel extends JPanel {
                 label.setBackground(row % 2 == 0 ? Color.WHITE : new Color(248, 250, 252));
                 label.setForeground(new Color(30, 41, 59));
             }
-            if (column == 6) { // Status Badge
+            if (column == 6) { 
                 String status = (String) value;
                 JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 12));
                 panel.setBackground(isSelected ? table.getSelectionBackground() : (row % 2 == 0 ? Color.WHITE : new Color(248, 250, 252)));
-                
+
                 JLabel badge = new JLabel(status);
                 badge.setFont(new Font("Segoe UI", Font.BOLD, 11));
                 badge.setOpaque(true);
                 badge.setBorder(BorderFactory.createEmptyBorder(4, 10, 4, 10));
-                
+
                 if (status.equals("Tersedia")) {
                     badge.setBackground(new Color(220, 252, 231));
                     badge.setForeground(new Color(21, 128, 61));
@@ -881,7 +861,7 @@ public class ProductPanel extends JPanel {
                 } else if (status.equals("Habis")) {
                     badge.setBackground(new Color(254, 226, 226));
                     badge.setForeground(new Color(220, 38, 38));
-                } else { // Nonaktif
+                } else { 
                     badge.setBackground(new Color(241, 245, 249));
                     badge.setForeground(new Color(71, 85, 105));
                 }
@@ -892,7 +872,6 @@ public class ProductPanel extends JPanel {
         }
     }
 
-    // Action Renderer
     class ActionRenderer extends JPanel implements TableCellRenderer {
         private JButton btnEdit;
         private JButton btnDelete;
@@ -913,7 +892,6 @@ public class ProductPanel extends JPanel {
         }
     }
 
-    // Action Editor
     class ActionEditor extends AbstractCellEditor implements TableCellEditor {
         private JPanel panel;
         private JButton btnEdit;
@@ -924,7 +902,7 @@ public class ProductPanel extends JPanel {
             panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 8));
             btnEdit = createIconButton("edit", new Color(59, 130, 246));
             btnDelete = createIconButton("trash", new Color(220, 38, 38));
-            
+
             btnEdit.addActionListener(e -> {
                 fireEditingStopped();
                 editProduct(currentProduct);
@@ -943,8 +921,7 @@ public class ProductPanel extends JPanel {
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             currentProduct = (Product) value;
             panel.setBackground(table.getSelectionBackground());
-            
-            // Dynamic Delete button rendering based on status
+
             if (currentProduct.isActive()) {
                 btnDelete.setIcon(IconUtils.getIcon("trash", 14, new Color(245, 158, 11)));
                 btnDelete.setToolTipText("Nonaktifkan");
@@ -972,3 +949,4 @@ public class ProductPanel extends JPanel {
         return btn;
     }
 }
+

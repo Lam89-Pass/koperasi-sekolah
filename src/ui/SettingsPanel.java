@@ -25,7 +25,6 @@ public class SettingsPanel extends JPanel {
     private JLabel lblTotalAdmin;
     private JLabel lblTotalBaru;
 
-    // Table
     private JTable tblUsers;
     private DefaultTableModel tableModel;
     private JTextField txtSearch;
@@ -36,7 +35,6 @@ public class SettingsPanel extends JPanel {
     private final int ROWS_PER_PAGE = 8;
     private List<User> allUsers = new ArrayList<>();
 
-    // Form
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JComboBox<String> cbRole;
@@ -48,26 +46,22 @@ public class SettingsPanel extends JPanel {
         setBackground(new Color(248, 250, 252));
         setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 
-        // ================= TOP (Stats Cards) =================
         JPanel statsPanel = new JPanel(new GridLayout(1, 2, 20, 0));
         statsPanel.setOpaque(false);
-        
+
         JPanel card1 = createStatCard("TOTAL AKUN", lblTotalAdmin = new JLabel("0 Akun"), "Total seluruh pengguna", "users", new Color(239, 246, 255), new Color(59, 130, 246));
         JPanel card2 = createStatCard("AKUN BARU", lblTotalBaru = new JLabel("0 Akun"), "Terdaftar bulan ini", "user-plus", new Color(220, 252, 231), new Color(34, 197, 94));
-        
+
         statsPanel.add(card1);
         statsPanel.add(card2);
 
         add(statsPanel, BorderLayout.NORTH);
 
-        // ================= CENTER (Split) =================
         JPanel splitPanel = new JPanel(new BorderLayout(20, 0));
         splitPanel.setOpaque(false);
 
-        // LEFT: Table
         splitPanel.add(createTablePanel(), BorderLayout.CENTER);
 
-        // RIGHT: Form
         splitPanel.add(createFormPanel(), BorderLayout.EAST);
 
         add(splitPanel, BorderLayout.CENTER);
@@ -112,14 +106,14 @@ public class SettingsPanel extends JPanel {
         JPanel textHolder = new JPanel();
         textHolder.setLayout(new BoxLayout(textHolder, BoxLayout.Y_AXIS));
         textHolder.setOpaque(false);
-        
+
         JLabel lblTitle = new JLabel(title);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblTitle.setForeground(new Color(100, 116, 139));
-        
+
         valLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
         valLabel.setForeground(new Color(30, 41, 59));
-        
+
         JLabel lblSub = new JLabel(subtitle);
         lblSub.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lblSub.setForeground(new Color(148, 163, 184));
@@ -138,7 +132,6 @@ public class SettingsPanel extends JPanel {
         JPanel leftPanel = new JPanel(new BorderLayout(0, 15));
         leftPanel.setOpaque(false);
 
-        // Search & Filters
         JPanel filterRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         filterRow.setOpaque(false);
 
@@ -157,7 +150,6 @@ public class SettingsPanel extends JPanel {
         filterRow.add(txtSearch);
         leftPanel.add(filterRow, BorderLayout.NORTH);
 
-        // Table Card
         JPanel tableCard = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -178,7 +170,7 @@ public class SettingsPanel extends JPanel {
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 4; // Only action column editable
+                return column == 4; 
             }
         };
         tblUsers = new JTable(tableModel);
@@ -211,7 +203,6 @@ public class SettingsPanel extends JPanel {
         scrollPane.getViewport().setBackground(Color.WHITE);
         tableCard.add(scrollPane, BorderLayout.CENTER);
 
-        // Pagination
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
@@ -260,7 +251,6 @@ public class SettingsPanel extends JPanel {
         formCard.add(formHeader);
         formCard.add(Box.createRigidArea(new Dimension(0, 25)));
 
-        // Username
         formCard.add(createFormLabel("Username"));
         txtUsername = new JTextField();
         txtUsername.setFont(new Font("Segoe UI", Font.PLAIN, 13));
@@ -275,7 +265,6 @@ public class SettingsPanel extends JPanel {
         formCard.add(txtUsername);
         formCard.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Password
         formCard.add(createFormLabel("Password"));
         txtPassword = new JPasswordField();
         txtPassword.setFont(new Font("Segoe UI", Font.PLAIN, 13));
@@ -290,7 +279,6 @@ public class SettingsPanel extends JPanel {
         formCard.add(txtPassword);
         formCard.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Role
         formCard.add(createFormLabel("Role"));
         cbRole = new JComboBox<>(new String[]{"ADMIN", "KASIR"});
         cbRole.setFont(new Font("Segoe UI", Font.PLAIN, 13));
@@ -302,12 +290,11 @@ public class SettingsPanel extends JPanel {
         formCard.add(Box.createRigidArea(new Dimension(0, 30)));
         formCard.add(Box.createVerticalGlue());
 
-        // Buttons
         JButton btnAdd = createBtn("+ Tambah Baru", new Color(22, 163, 74), Color.WHITE);
         JButton btnUpdate = createBtn("Simpan Perubahan", new Color(59, 130, 246), Color.WHITE);
         JButton btnDelete = createBtn("Hapus Data", new Color(220, 38, 38), Color.WHITE);
         JButton btnClear = createBtn("Reset Form", Color.WHITE, new Color(71, 85, 105));
-        
+
         btnClear.setBorder(BorderFactory.createLineBorder(new Color(226, 232, 240)));
 
         btnAdd.addActionListener(e -> saveUser(true));
@@ -380,7 +367,7 @@ public class SettingsPanel extends JPanel {
         try (Connection conn = DBHelper.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql.toString())) {
-            
+
             while (rs.next()) {
                 User u = new User(
                     rs.getInt("id"),
@@ -397,7 +384,7 @@ public class SettingsPanel extends JPanel {
         }
 
         lblTotalAdmin.setText(totAdmin + " Akun");
-        lblTotalBaru.setText(totAdmin + " Akun"); // Simplified, just display total for now
+        lblTotalBaru.setText(totAdmin + " Akun"); 
 
         totalPages = Math.max(1, (int) Math.ceil((double) allUsers.size() / ROWS_PER_PAGE));
         if (currentPage > totalPages) currentPage = 1;
@@ -408,10 +395,10 @@ public class SettingsPanel extends JPanel {
         currentPage = page;
         tableModel.setRowCount(0);
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm");
-        
+
         int start = (page - 1) * ROWS_PER_PAGE;
         int end = Math.min(start + ROWS_PER_PAGE, allUsers.size());
-        
+
         for (int i = start; i < end; i++) {
             User u = allUsers.get(i);
             String dateStr = u.getCreatedAt() != null ? sdf.format(u.getCreatedAt()) : "-";
@@ -420,7 +407,7 @@ public class SettingsPanel extends JPanel {
                 u.getUsername(),
                 u.getRole(),
                 dateStr,
-                u // Action column uses User object
+                u 
             });
         }
 
@@ -511,9 +498,9 @@ public class SettingsPanel extends JPanel {
                     JOptionPane.showMessageDialog(this, "Pilih akun terlebih dahulu untuk diupdate!", "Peringatan", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-                
+
                 if (password.isEmpty()) {
-                    // Update without changing password
+
                     String sql = "UPDATE users SET username=?, role=? WHERE id=?";
                     try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                         stmt.setString(1, username);
@@ -523,7 +510,7 @@ public class SettingsPanel extends JPanel {
                         JOptionPane.showMessageDialog(this, "Akun berhasil diperbarui!");
                     }
                 } else {
-                    // Update with new password
+
                     String sql = "UPDATE users SET username=?, password=?, role=? WHERE id=?";
                     try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                         stmt.setString(1, username);
@@ -573,11 +560,10 @@ public class SettingsPanel extends JPanel {
     public void editUser(User u) {
         selectedUserId = u.getId();
         txtUsername.setText(u.getUsername());
-        txtPassword.setText(""); // Leave empty intentionally
+        txtPassword.setText(""); 
         cbRole.setSelectedItem(u.getRole());
     }
 
-    // Custom Cell Renderer for general data
     class UserCellRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -588,16 +574,16 @@ public class SettingsPanel extends JPanel {
                 label.setBackground(row % 2 == 0 ? Color.WHITE : new Color(248, 250, 252));
                 label.setForeground(new Color(30, 41, 59));
             }
-            if (column == 2) { // Role Badge
+            if (column == 2) { 
                 String r = (String) value;
                 JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 12));
                 panel.setBackground(isSelected ? table.getSelectionBackground() : (row % 2 == 0 ? Color.WHITE : new Color(248, 250, 252)));
-                
+
                 JLabel badge = new JLabel(r);
                 badge.setFont(new Font("Segoe UI", Font.BOLD, 11));
                 badge.setOpaque(true);
                 badge.setBorder(BorderFactory.createEmptyBorder(4, 10, 4, 10));
-                
+
                 badge.setBackground(new Color(243, 232, 255));
                 badge.setForeground(new Color(168, 85, 247));
 
@@ -608,7 +594,6 @@ public class SettingsPanel extends JPanel {
         }
     }
 
-    // Action Renderer
     class ActionRenderer extends JPanel implements TableCellRenderer {
         private JButton btnEdit;
         private JButton btnDelete;
@@ -629,7 +614,6 @@ public class SettingsPanel extends JPanel {
         }
     }
 
-    // Action Editor
     class ActionEditor extends AbstractCellEditor implements TableCellEditor {
         private JPanel panel;
         private JButton btnEdit;
@@ -640,7 +624,7 @@ public class SettingsPanel extends JPanel {
             panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 8));
             btnEdit = createIconButton("edit", new Color(59, 130, 246));
             btnDelete = createIconButton("trash", new Color(220, 38, 38));
-            
+
             btnEdit.addActionListener(e -> {
                 fireEditingStopped();
                 editUser(currentUser);
@@ -678,3 +662,4 @@ public class SettingsPanel extends JPanel {
         return btn;
     }
 }
+

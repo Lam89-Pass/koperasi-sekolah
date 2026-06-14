@@ -23,11 +23,11 @@ public class ShopPanel extends JPanel {
     private JTable tblProducts;
     private DefaultTableModel prodModel;
     private List<Product> productList = new ArrayList<>();
-    
+
     private JTable tblCart;
     private DefaultTableModel cartModel;
     private Map<Product, Integer> cartItems = new HashMap<>();
-    
+
     private JTable tblShopHistory;
     private DefaultTableModel historyModel;
 
@@ -50,19 +50,15 @@ public class ShopPanel extends JPanel {
         setBackground(new Color(248, 250, 252));
         setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 45));
 
-
-        // ================= MAIN LAYOUT =================
         JPanel centerPanel = new JPanel(new BorderLayout(20, 0));
         centerPanel.setOpaque(false);
 
-        // --- LEFT SIDE (Katalog & Riwayat) ---
         JPanel leftPanel = new JPanel(new GridBagLayout());
         leftPanel.setOpaque(false);
         GridBagConstraints lgbc = new GridBagConstraints();
         lgbc.fill = GridBagConstraints.BOTH;
         lgbc.weightx = 1.0;
 
-        // Katalog
         JPanel catalogContainer = createCardPanel();
         catalogContainer.setLayout(new BorderLayout());
         catalogContainer.add(createCardHeader("Katalog Barang Toko", "box", new Color(59, 130, 246)), BorderLayout.NORTH);
@@ -96,7 +92,6 @@ public class ShopPanel extends JPanel {
         lgbc.weighty = 0.0;
         leftPanel.add(Box.createRigidArea(new Dimension(0, 20)), lgbc);
 
-        // Riwayat
         JPanel historyContainer = createCardPanel();
         historyContainer.setLayout(new BorderLayout());
         historyContainer.add(createCardHeader("Riwayat Pembelian Terbaru", "report", new Color(245, 158, 11)), BorderLayout.NORTH);
@@ -124,7 +119,6 @@ public class ShopPanel extends JPanel {
 
         centerPanel.add(leftPanel, BorderLayout.CENTER);
 
-        // --- RIGHT SIDE (Keranjang & Pembayaran) ---
         JPanel rightPanel = new JPanel(new GridBagLayout());
         rightPanel.setOpaque(false);
         rightPanel.setPreferredSize(new Dimension(380, 0));
@@ -132,7 +126,6 @@ public class ShopPanel extends JPanel {
         rgbc.fill = GridBagConstraints.BOTH;
         rgbc.weightx = 1.0;
 
-        // Keranjang
         JPanel cartContainer = createCardPanel();
         cartContainer.setLayout(new BorderLayout());
         cartContainer.add(createCardHeader("Keranjang Belanja", "shop", new Color(168, 85, 247)), BorderLayout.NORTH);
@@ -162,7 +155,6 @@ public class ShopPanel extends JPanel {
         rgbc.weighty = 0.0;
         rightPanel.add(Box.createRigidArea(new Dimension(0, 20)), rgbc);
 
-        // Form Pembayaran
         JPanel checkCard = createCardPanel();
         checkCard.setLayout(new BoxLayout(checkCard, BoxLayout.Y_AXIS));
         checkCard.setBorder(BorderFactory.createEmptyBorder(20, 20, 25, 20));
@@ -195,11 +187,11 @@ public class ShopPanel extends JPanel {
         JLabel lblTotalLabel = new JLabel("Total Tagihan:");
         lblTotalLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblTotalLabel.setForeground(new Color(100, 116, 139));
-        
+
         lblTotalAmount = new JLabel("Rp 0");
         lblTotalAmount.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblTotalAmount.setForeground(new Color(16, 185, 129));
-        
+
         totalPanel.add(lblTotalLabel, BorderLayout.WEST);
         totalPanel.add(lblTotalAmount, BorderLayout.EAST);
         totalPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -213,7 +205,7 @@ public class ShopPanel extends JPanel {
 
         btnCheckout = createButton("Checkout", "wallet", new Color(16, 185, 129));
         btnCheckout.addActionListener(e -> checkoutCart());
-        
+
         btnPrintReceipt = createButton("Cetak Struk", "report", new Color(59, 130, 246));
         btnPrintReceipt.setEnabled(false);
         btnPrintReceipt.addActionListener(e -> showReceiptDialog());
@@ -234,8 +226,6 @@ public class ShopPanel extends JPanel {
         loadStudents();
         loadShopHistory();
     }
-
-    // --- UI HELPER METHODS ---
 
     private JPanel createCardPanel() {
         JPanel pnl = new JPanel() {
@@ -274,16 +264,16 @@ public class ShopPanel extends JPanel {
         pnl.setLayout(new BoxLayout(pnl, BoxLayout.Y_AXIS));
         pnl.setOpaque(false);
         pnl.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
+
         JLabel lbl = new JLabel(label);
         lbl.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lbl.setForeground(new Color(100, 116, 139));
         lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
+
         comp.setAlignmentX(Component.LEFT_ALIGNMENT);
         comp.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
         comp.setPreferredSize(new Dimension(Integer.MAX_VALUE, 38));
-        
+
         pnl.add(lbl);
         pnl.add(Box.createRigidArea(new Dimension(0, 6)));
         pnl.add(comp);
@@ -338,7 +328,7 @@ public class ShopPanel extends JPanel {
         table.setIntercellSpacing(new Dimension(0, 0));
         table.setSelectionBackground(new Color(241, 245, 249));
         table.setSelectionForeground(new Color(30, 41, 59));
-        
+
         table.getTableHeader().setBackground(Color.WHITE);
         table.getTableHeader().setForeground(new Color(100, 116, 139));
         table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
@@ -366,8 +356,6 @@ public class ShopPanel extends JPanel {
         return table;
     }
 
-    // --- LOGIC METHODS ---
-
     public void loadProducts() {
         prodModel.setRowCount(0);
         productList.clear();
@@ -376,7 +364,7 @@ public class ShopPanel extends JPanel {
         try (Connection conn = DBHelper.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            
+
             while (rs.next()) {
                 Product p = new Product(
                     rs.getInt("id"),
@@ -386,7 +374,7 @@ public class ShopPanel extends JPanel {
                     rs.getInt("stok")
                 );
                 productList.add(p);
-                
+
                 prodModel.addRow(new Object[]{
                     p.getId(),
                     p.getProductCode(),
@@ -404,12 +392,12 @@ public class ShopPanel extends JPanel {
         cbStudents.removeAllItems();
         students.clear();
         cbStudents.addItem("--- Pilih Anggota ---");
-        
+
         String sql = "SELECT * FROM siswa WHERE is_active = TRUE ORDER BY nis ASC";
         try (Connection conn = DBHelper.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            
+
             while (rs.next()) {
                 Student s = new Student(
                     rs.getInt("id"),
@@ -434,7 +422,7 @@ public class ShopPanel extends JPanel {
         try (Connection conn = DBHelper.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            
+
             while (rs.next()) {
                 String name = rs.getString("nama");
                 if (name == null) {
@@ -456,7 +444,7 @@ public class ShopPanel extends JPanel {
     private void handleBuyerTypeChange() {
         boolean isMember = cbBuyerType.getSelectedIndex() == 1;
         cbStudents.setEnabled(isMember);
-        
+
         if (!isMember) {
             cbPaymentMethod.setSelectedIndex(0);
             cbPaymentMethod.setEnabled(false);
@@ -469,7 +457,7 @@ public class ShopPanel extends JPanel {
     private void validatePaymentMethod() {
         boolean isTabungan = cbPaymentMethod.getSelectedIndex() == 1;
         boolean isGuest = cbBuyerType.getSelectedIndex() == 0;
-        
+
         if (isTabungan && isGuest) {
             JOptionPane.showMessageDialog(this, "Metode pembayaran tabungan memerlukan anggota siswa!", "Validasi Gagal", JOptionPane.WARNING_MESSAGE);
             cbPaymentMethod.setSelectedIndex(0);
@@ -493,7 +481,7 @@ public class ShopPanel extends JPanel {
         }
 
         if (product == null) return;
-        
+
         if (product.getStock() <= 0) {
             JOptionPane.showMessageDialog(this, "Stok barang habis!", "Stok Kosong", JOptionPane.WARNING_MESSAGE);
             return;
@@ -598,7 +586,7 @@ public class ShopPanel extends JPanel {
 
             if (success) {
                 conn.commit();
-                
+
                 JOptionPane.showMessageDialog(
                     this, 
                     "Checkout berhasil! Total Transaksi: Rp" + String.format("%,.0f", totalAmount), 
@@ -640,9 +628,9 @@ public class ShopPanel extends JPanel {
             return;
         }
 
-        String idStr = (String) historyModel.getValueAt(row, 0); // "TOKO-123"
+        String idStr = (String) historyModel.getValueAt(row, 0); 
         int transId = Integer.parseInt(idStr.replace("TOKO-", ""));
-        
+
         Map<Product, Integer> items = new HashMap<>();
         String sName = null;
         String sNis = null;
@@ -719,7 +707,7 @@ public class ShopPanel extends JPanel {
         if (result == JOptionPane.YES_OPTION) {
             String sName = null;
             String sNis = null;
-            if (cbBuyerType.getSelectedIndex() == 1) { // Anggota
+            if (cbBuyerType.getSelectedIndex() == 1) { 
                 Object sel = cbStudents.getSelectedItem();
                 if (sel instanceof Student) {
                     sName = ((Student) sel).getName();
@@ -731,3 +719,4 @@ public class ShopPanel extends JPanel {
         }
     }
 }
+

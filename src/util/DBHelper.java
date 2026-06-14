@@ -51,13 +51,13 @@ public class DBHelper {
 
     public static void initializeDatabase() {
         System.out.println("Memulai inisialisasi database...");
-        
+
         try (Connection conn = getServerConnection();
              Statement stmt = conn.createStatement()) {
-            
+
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + dbName);
             System.out.println("Database '" + dbName + "' siap.");
-            
+
         } catch (SQLException e) {
             System.err.println("Gagal membuat database: " + e.getMessage());
             return;
@@ -65,7 +65,7 @@ public class DBHelper {
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
-            
+
             String createUsersTable = "CREATE TABLE IF NOT EXISTS users (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY," +
                     "username VARCHAR(50) UNIQUE NOT NULL," +
@@ -101,7 +101,6 @@ public class DBHelper {
                     ") ENGINE=InnoDB;";
             stmt.execute(createBarangTable);
 
-            // In case the table already exists, try to add the missing columns gracefully
             try { stmt.execute("ALTER TABLE siswa ADD COLUMN is_active BOOLEAN DEFAULT TRUE"); } catch (SQLException e) {}
             try { stmt.execute("ALTER TABLE barang ADD COLUMN kategori VARCHAR(50) DEFAULT 'Lainnya'"); } catch (SQLException e) {}
             try { stmt.execute("ALTER TABLE barang ADD COLUMN satuan VARCHAR(20) DEFAULT 'Pcs'"); } catch (SQLException e) {}
@@ -154,7 +153,7 @@ public class DBHelper {
             stmt.execute(createDetailTransaksiTokoTable);
 
             System.out.println("Seluruh tabel database berhasil diperiksa/dibuat.");
-            
+
             seedDataIfEmpty(conn);
 
         } catch (SQLException e) {
@@ -263,3 +262,4 @@ public class DBHelper {
         }
     }
 }
+

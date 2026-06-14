@@ -35,3 +35,4 @@ public class User {
         return username + " (" + role + ")";
     }
 }
+

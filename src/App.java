@@ -6,7 +6,7 @@ import util.DBHelper;
 public class App {
     public static void main(String[] args) {
         System.out.println("Memulai aplikasi Koperasi Sekolah...");
-        
+
         try {
             DBHelper.initializeDatabase();
         } catch (Exception e) {
@@ -35,3 +35,4 @@ public class App {
         });
     }
 }
+

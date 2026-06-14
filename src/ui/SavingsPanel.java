@@ -26,14 +26,12 @@ public class SavingsPanel extends JPanel {
     private JLabel lblCurrentBalanceForm;
     private List<Student> students = new ArrayList<>();
 
-    // Form fields
     private JButton btnToggleSimpan;
     private JButton btnToggleTarik;
-    private boolean isSimpan = true; // true = Simpan, false = Tarik
+    private boolean isSimpan = true; 
     private JTextField txtAmount;
     private JTextArea txtDesc;
-    
-    // Table
+
     private JTable tblHistory;
     private DefaultTableModel tableModel;
     private JTextField txtSearch;
@@ -43,7 +41,7 @@ public class SavingsPanel extends JPanel {
     private JPanel paginationPanel;
     private int currentPage = 1;
     private int totalPages = 1;
-    private final int ROWS_PER_PAGE = 10; // Increased to 10 for better layout usage without stats panel
+    private final int ROWS_PER_PAGE = 10; 
     private List<Object[]> allRows = new ArrayList<>();
 
     public SavingsPanel() {
@@ -51,11 +49,9 @@ public class SavingsPanel extends JPanel {
         setBackground(new Color(248, 250, 252));
         setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 
-        // ================= CENTER (Split) =================
         JPanel splitPanel = new JPanel(new BorderLayout(20, 0));
         splitPanel.setOpaque(false);
 
-        // LEFT: Table
         JPanel leftPanel = new JPanel(new BorderLayout(0, 15));
         leftPanel.setOpaque(false);
 
@@ -67,7 +63,6 @@ public class SavingsPanel extends JPanel {
         tableTitle.setIcon(IconUtils.getIcon("clock", 20, new Color(59, 130, 246)));
         tableHeaderPanel.add(tableTitle, BorderLayout.NORTH);
 
-        // Search & Filters
         JPanel filterRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         filterRow.setOpaque(false);
         filterRow.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
@@ -100,10 +95,9 @@ public class SavingsPanel extends JPanel {
         filterRow.add(cbFilterType);
         filterRow.add(datePicker);
         tableHeaderPanel.add(filterRow, BorderLayout.CENTER);
-        
+
         leftPanel.add(tableHeaderPanel, BorderLayout.NORTH);
 
-        // Table Card
         JPanel tableCard = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -159,7 +153,6 @@ public class SavingsPanel extends JPanel {
         scrollPane.getViewport().setBackground(Color.WHITE);
         tableCard.add(scrollPane, BorderLayout.CENTER);
 
-        // Pagination
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 5));
@@ -179,7 +172,6 @@ public class SavingsPanel extends JPanel {
         leftPanel.add(tableWrapper, BorderLayout.CENTER);
         splitPanel.add(leftPanel, BorderLayout.CENTER);
 
-        // RIGHT: Form
         JPanel formCard = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -210,7 +202,6 @@ public class SavingsPanel extends JPanel {
         formCard.add(formHeader);
         formCard.add(Box.createRigidArea(new Dimension(0, 25)));
 
-        // Form Fields
         formCard.add(createFormLabel("Pilih Anggota"));
         cbStudents = new JComboBox<>();
         cbStudents.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -218,8 +209,8 @@ public class SavingsPanel extends JPanel {
         cbStudents.setPreferredSize(new Dimension(0, 45));
         cbStudents.setAlignmentX(LEFT_ALIGNMENT);
         cbStudents.setBackground(Color.WHITE);
-        cbStudents.setEditable(true); // Allow searching/typing
-        
+        cbStudents.setEditable(true); 
+
         JTextField cbEditor = (JTextField) cbStudents.getEditor().getEditorComponent();
         cbEditor.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         cbEditor.addKeyListener(new KeyAdapter() {
@@ -291,28 +282,26 @@ public class SavingsPanel extends JPanel {
         formCard.add(descScroll);
         formCard.add(Box.createRigidArea(new Dimension(0, 25)));
 
-        // Saldo Indicator
         JPanel saldoContainer = new JPanel();
         saldoContainer.setLayout(new BoxLayout(saldoContainer, BoxLayout.Y_AXIS));
         saldoContainer.setOpaque(true);
-        saldoContainer.setBackground(new Color(220, 252, 231)); // Green bg
+        saldoContainer.setBackground(new Color(220, 252, 231)); 
         saldoContainer.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-        saldoContainer.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100)); // Increased height
+        saldoContainer.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100)); 
         saldoContainer.setPreferredSize(new Dimension(0, 80));
         saldoContainer.setAlignmentX(LEFT_ALIGNMENT);
         JLabel lblSaldoTitle = new JLabel("Saldo Saat Ini");
         lblSaldoTitle.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblSaldoTitle.setForeground(new Color(21, 128, 61));
         lblCurrentBalanceForm = new JLabel("Rp 0");
-        lblCurrentBalanceForm.setFont(new Font("Segoe UI", Font.BOLD, 24)); // Increased font size
+        lblCurrentBalanceForm.setFont(new Font("Segoe UI", Font.BOLD, 24)); 
         lblCurrentBalanceForm.setForeground(new Color(21, 128, 61));
         saldoContainer.add(lblSaldoTitle);
         saldoContainer.add(Box.createRigidArea(new Dimension(0, 8)));
         saldoContainer.add(lblCurrentBalanceForm);
         formCard.add(saldoContainer);
-        formCard.add(Box.createVerticalGlue()); // Push buttons to bottom
+        formCard.add(Box.createVerticalGlue()); 
 
-        // Buttons
         JButton btnSubmit = new JButton("Simpan Transaksi") {
             @Override
             protected void paintComponent(Graphics g) {
@@ -370,7 +359,7 @@ public class SavingsPanel extends JPanel {
 
         JPanel formWrapper = new JPanel(new BorderLayout());
         formWrapper.setOpaque(false);
-        formWrapper.setPreferredSize(new Dimension(420, 0)); // Even slightly wider to be safe
+        formWrapper.setPreferredSize(new Dimension(420, 0)); 
         formWrapper.add(formCard, BorderLayout.CENTER);
 
         splitPanel.add(formWrapper, BorderLayout.EAST);
@@ -386,15 +375,15 @@ public class SavingsPanel extends JPanel {
         btn.setOpaque(true);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        
+
         if (isActive) {
             if (isSimpanBtn) {
-                btn.setBackground(new Color(220, 252, 231)); // Light green
+                btn.setBackground(new Color(220, 252, 231)); 
                 btn.setForeground(new Color(21, 128, 61));
                 btn.setIcon(IconUtils.getIcon("arrow-down", 16, new Color(21, 128, 61)));
                 btn.setBorder(BorderFactory.createLineBorder(new Color(220, 252, 231)));
             } else {
-                btn.setBackground(new Color(254, 226, 226)); // Light red
+                btn.setBackground(new Color(254, 226, 226)); 
                 btn.setForeground(new Color(220, 38, 38));
                 btn.setIcon(IconUtils.getIcon("arrow-up", 16, new Color(220, 38, 38)));
                 btn.setBorder(BorderFactory.createLineBorder(new Color(254, 226, 226)));
@@ -429,9 +418,9 @@ public class SavingsPanel extends JPanel {
     public void loadStudents() {
         cbStudents.removeAllItems();
         students.clear();
-        
+
         String sql = "SELECT * FROM siswa WHERE is_active = TRUE ORDER BY nis ASC";
-        
+
         Student dummy = new Student(-1, "", "Pilih Anggota...", "", 0.0, null) {
             @Override
             public String toString() {
@@ -444,7 +433,7 @@ public class SavingsPanel extends JPanel {
         try (Connection conn = DBHelper.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            
+
             while (rs.next()) {
                 Student s = new Student(
                     rs.getInt("id"),
@@ -491,7 +480,7 @@ public class SavingsPanel extends JPanel {
     }
 
     public void loadStats() {
-        // Stats are now removed from UI, keeping method empty so MainFrame doesn't break
+
     }
 
     public void loadTransactions() {
@@ -499,34 +488,34 @@ public class SavingsPanel extends JPanel {
         String search = txtSearch.getText().trim();
         String dateFilter = datePicker.getSelectedDateStr();
         String filterType = cbFilterType.getSelectedItem().toString();
-        
+
         StringBuilder sql = new StringBuilder("SELECT t.*, s.nama, s.nis, s.saldo_tabungan FROM transaksi_tabungan t JOIN siswa s ON t.siswa_id = s.id WHERE 1=1 ");
-        
+
         if (!search.isEmpty()) {
             sql.append("AND (s.nama LIKE '%").append(search).append("%' OR s.nis LIKE '%").append(search).append("%') ");
         }
-        
+
         if (!dateFilter.isEmpty()) {
             sql.append("AND DATE(t.tanggal) = '").append(dateFilter).append("' ");
         }
-        
+
         if (filterType.equals("SIMPAN")) {
             sql.append("AND t.jenis_transaksi = 'SIMPAN' ");
         } else if (filterType.equals("TARIK")) {
             sql.append("AND t.jenis_transaksi = 'TARIK' ");
         }
-        
+
         sql.append("ORDER BY t.tanggal DESC");
 
         try (Connection conn = DBHelper.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql.toString())) {
-            
+
             while (rs.next()) {
                 String type = rs.getString("jenis_transaksi");
                 double amt = rs.getDouble("jumlah");
                 String strAmt = (type.equals("SIMPAN") ? "+ Rp " : "- Rp ") + formatRp(amt);
-                
+
                 allRows.add(new Object[]{
                     rs.getTimestamp("tanggal").toString().substring(0, 19), 
                     rs.getString("nis"),
@@ -539,7 +528,7 @@ public class SavingsPanel extends JPanel {
                 });
             }
         } catch (Exception e) {
-            // Usually if date format is wrong, SQL query fails. We just gracefully ignore or show empty list.
+
             System.err.println("Load Transactions error (possibly invalid date format): " + e.getMessage());
         }
 
@@ -551,10 +540,10 @@ public class SavingsPanel extends JPanel {
     private void showPage(int page) {
         currentPage = page;
         tableModel.setRowCount(0);
-        
+
         int start = (page - 1) * ROWS_PER_PAGE;
         int end = Math.min(start + ROWS_PER_PAGE, allRows.size());
-        
+
         for (int i = start; i < end; i++) {
             tableModel.addRow(allRows.get(i));
         }
@@ -619,7 +608,7 @@ public class SavingsPanel extends JPanel {
 
     private void processSavings() {
         Student student = getSelectedStudent();
-        
+
         if (student == null) {
             JOptionPane.showMessageDialog(this, "Siswa tidak ditemukan! Pastikan NIS/Nama sesuai.", "Validasi Gagal", JOptionPane.WARNING_MESSAGE);
             return;
@@ -652,12 +641,12 @@ public class SavingsPanel extends JPanel {
             conn.setAutoCommit(false); 
 
             boolean success = trans.processTransaction(conn);
-            
+
             if (success) {
                 conn.commit(); 
                 JOptionPane.showMessageDialog(this, "Transaksi berhasil disimpan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
                 resetForm();
-                loadStudents(); // Reload balances
+                loadStudents(); 
                 loadTransactions();
             } else {
                 conn.rollback();
@@ -690,14 +679,14 @@ public class SavingsPanel extends JPanel {
             Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             JLabel label = (JLabel) c;
             label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-            
+
             if (!isSelected) {
                 label.setBackground(row % 2 == 0 ? Color.WHITE : new Color(248, 250, 252));
                 label.setForeground(new Color(30, 41, 59));
             }
 
             if (column == 3) {
-                // Badge for Jenis
+
                 String jenis = (String) value;
                 JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 12));
                 if (isSelected) {
@@ -705,12 +694,12 @@ public class SavingsPanel extends JPanel {
                 } else {
                     panel.setBackground(row % 2 == 0 ? Color.WHITE : new Color(248, 250, 252));
                 }
-                
+
                 JLabel badge = new JLabel(jenis);
                 badge.setFont(new Font("Segoe UI", Font.BOLD, 10));
                 badge.setOpaque(true);
                 badge.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
-                
+
                 if (jenis.equals("SIMPAN")) {
                     badge.setBackground(new Color(220, 252, 231));
                     badge.setForeground(new Color(21, 128, 61));
@@ -721,7 +710,7 @@ public class SavingsPanel extends JPanel {
                 panel.add(badge);
                 return panel;
             } else if (column == 5) {
-                // Nominal coloring
+
                 String nom = (String) value;
                 if (nom.startsWith("+")) {
                     label.setForeground(new Color(21, 128, 61));
@@ -729,8 +718,7 @@ public class SavingsPanel extends JPanel {
                     label.setForeground(new Color(220, 38, 38));
                 }
             }
-            
-            // Text Alignment
+
             if (column == 5 || column == 6) {
                 label.setHorizontalAlignment(SwingConstants.RIGHT);
             } else if (column == 7 || column == 0 || column == 1) {
@@ -743,3 +731,4 @@ public class SavingsPanel extends JPanel {
         }
     }
 }
+

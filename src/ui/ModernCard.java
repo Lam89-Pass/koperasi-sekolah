@@ -58,3 +58,4 @@ public class ModernCard extends JPanel {
         return new Insets(15 + shadowSize, 15 + shadowSize, 15 + shadowSize, 15 + shadowSize);
     }
 }
+

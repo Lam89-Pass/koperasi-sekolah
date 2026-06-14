@@ -25,20 +25,19 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        setUndecorated(true); // Modern borderless window
-        setShape(new RoundRectangle2D.Double(0, 0, 850, 500, 20, 20)); // Rounded corners
+        setUndecorated(true); 
+        setShape(new RoundRectangle2D.Double(0, 0, 850, 500, 20, 20)); 
 
         JPanel mainContent = new JPanel(new BorderLayout());
         mainContent.setBackground(Color.WHITE);
 
-        // ================= LEFT PANEL (GRADIENT BRANDING) =================
         JPanel leftPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                // Premium Green to Deep Teal Gradient
+
                 GradientPaint gp = new GradientPaint(
                         0, 0, new Color(16, 185, 129),
                         0, getHeight(), new Color(15, 118, 110)
@@ -54,7 +53,7 @@ public class LoginFrame extends JFrame {
 
         JLabel lblIcon = new JLabel(IconUtils.getIcon("shop", 64, Color.WHITE));
         lblIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         JLabel lblBrandTitle = new JLabel("KOPERASI SEKOLAH");
         lblBrandTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblBrandTitle.setForeground(Color.WHITE);
@@ -73,17 +72,15 @@ public class LoginFrame extends JFrame {
         leftPanel.add(lblBrandSubtitle);
         leftPanel.add(Box.createVerticalGlue());
 
-        // ================= RIGHT PANEL (LOGIN FORM) =================
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setBorder(new EmptyBorder(50, 60, 50, 60));
 
-        // Close button at top right
         JPanel topBar = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         topBar.setOpaque(false);
         topBar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        JLabel lblClose = new JLabel(IconUtils.getIcon("trash", 20, new Color(148, 163, 184))); // using trash as close placeholder if "close" doesn't exist, better text "X"
+        JLabel lblClose = new JLabel(IconUtils.getIcon("trash", 20, new Color(148, 163, 184))); 
         lblClose.setText("X");
         lblClose.setIcon(null);
         lblClose.setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -106,7 +103,6 @@ public class LoginFrame extends JFrame {
         lblLoginSub.setForeground(new Color(100, 116, 139));
         lblLoginSub.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Form Fields
         JLabel lblUsername = new JLabel("Username");
         lblUsername.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblUsername.setForeground(new Color(71, 85, 105));
@@ -137,7 +133,6 @@ public class LoginFrame extends JFrame {
         ));
         txtPassword.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Login Button
         btnLogin = new JButton("Masuk Sekarang") {
             @Override
             protected void paintComponent(Graphics g) {
@@ -166,11 +161,9 @@ public class LoginFrame extends JFrame {
         btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         btnLogin.addActionListener(e -> attemptLogin());
-        
-        // Add Enter Key binding
+
         getRootPane().setDefaultButton(btnLogin);
 
-        // Assembly Right Panel
         rightPanel.add(topBar);
         rightPanel.add(Box.createVerticalGlue());
         rightPanel.add(lblLoginTitle);
@@ -230,3 +223,4 @@ public class LoginFrame extends JFrame {
         }
     }
 }
+

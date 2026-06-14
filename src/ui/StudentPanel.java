@@ -19,22 +19,21 @@ public class StudentPanel extends JPanel {
     private JTable tblStudents;
     private DefaultTableModel tableModel;
     private JTextField txtSearch;
-    
+
     private JTextField txtNis;
     private JTextField txtName;
     private JTextField txtClass;
     private JTextField txtInitialSavings;
-    
+
     private JButton btnAdd;
     private JButton btnUpdate;
     private JButton btnDelete;
     private JButton btnRealDelete;
     private JButton btnClear;
-    
+
     private int selectedStudentId = -1;
     private List<Student> studentList = new ArrayList<>();
 
-    // Pagination
     private int currentPage = 1;
     private int totalPages = 1;
     private static final int ROWS_PER_PAGE = 10;
@@ -47,15 +46,12 @@ public class StudentPanel extends JPanel {
         setBackground(new Color(248, 250, 252));
         setBorder(BorderFactory.createEmptyBorder(0, 30, 30, 30));
 
-        // =================== MAIN SPLIT ===================
         JPanel splitPanel = new JPanel(new BorderLayout(20, 0));
         splitPanel.setOpaque(false);
 
-        // =================== LEFT: TABLE SECTION ===================
         JPanel leftPanel = new JPanel(new BorderLayout(0, 15));
         leftPanel.setOpaque(false);
 
-        // Search bar row
         JPanel searchRow = new JPanel(new BorderLayout(10, 0));
         searchRow.setOpaque(false);
 
@@ -77,7 +73,6 @@ public class StudentPanel extends JPanel {
         searchRow.add(txtSearch, BorderLayout.WEST);
         leftPanel.add(searchRow, BorderLayout.NORTH);
 
-        // Table card
         JPanel tableCard = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -98,7 +93,7 @@ public class StudentPanel extends JPanel {
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 7; // Only action column
+                return column == 7; 
             }
         };
         tblStudents = new JTable(tableModel);
@@ -110,7 +105,6 @@ public class StudentPanel extends JPanel {
         tblStudents.setSelectionForeground(new Color(30, 41, 59));
         tblStudents.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Hide ID column
         tblStudents.getColumnModel().getColumn(0).setMinWidth(0);
         tblStudents.getColumnModel().getColumn(0).setMaxWidth(0);
         tblStudents.getColumnModel().getColumn(0).setWidth(0);
@@ -125,7 +119,6 @@ public class StudentPanel extends JPanel {
 
         tblStudents.setDefaultRenderer(Object.class, new StudentCellRenderer());
 
-        // Table header styling
         tblStudents.getTableHeader().setBackground(Color.WHITE);
         tblStudents.getTableHeader().setForeground(new Color(100, 116, 139));
         tblStudents.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -133,7 +126,6 @@ public class StudentPanel extends JPanel {
         tblStudents.getTableHeader().setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(226, 232, 240)));
         tblStudents.getTableHeader().setReorderingAllowed(false);
 
-        // Action column: click handler
         tblStudents.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -146,7 +138,7 @@ public class StudentPanel extends JPanel {
                         clickX -= tblStudents.getColumnModel().getColumn(i).getWidth();
                     }
                     if (clickX >= cellWidth / 2 || clickX < cellWidth) {
-                        // Arsip button clicked
+
                         int studentId = (int) tableModel.getValueAt(row, 0);
                         boolean isActive = tableModel.getValueAt(row, 5).equals("Aktif");
                         toggleArchiveStudentById(studentId, !isActive);
@@ -162,7 +154,6 @@ public class StudentPanel extends JPanel {
         scrollPane.getViewport().setBackground(Color.WHITE);
         tableCard.add(scrollPane, BorderLayout.CENTER);
 
-        // Bottom: info + pagination
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 5));
@@ -186,7 +177,6 @@ public class StudentPanel extends JPanel {
 
         splitPanel.add(leftPanel, BorderLayout.CENTER);
 
-        // =================== RIGHT: FORM ===================
         JPanel formCard = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -217,38 +207,33 @@ public class StudentPanel extends JPanel {
         formCard.add(formHeader);
         formCard.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // NIS
         formCard.add(createFormLabel("NIS"));
         txtNis = createFormField("Masukkan NIS");
         formCard.add(txtNis);
         formCard.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Nama
         formCard.add(createFormLabel("Nama Lengkap"));
         txtName = createFormField("Masukkan nama lengkap");
         formCard.add(txtName);
         formCard.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Kelas
         formCard.add(createFormLabel("Kelas"));
         txtClass = createFormField("Masukkan kelas");
         formCard.add(txtClass);
         formCard.add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // Saldo
         formCard.add(createFormLabel("Saldo Tabungan Awal"));
         txtInitialSavings = createFormField("0");
         txtInitialSavings.setText("0");
         formCard.add(txtInitialSavings);
         formCard.add(Box.createRigidArea(new Dimension(0, 25)));
 
-        // Buttons
         btnAdd = createFormButton("+ Tambah Baru", new Color(34, 197, 94));
         btnUpdate = createFormButton("Simpan Perubahan", new Color(59, 130, 246));
         btnUpdate.setIcon(IconUtils.getIcon("report", 14, Color.WHITE));
-        btnDelete = createFormButton("Nonaktifkan", new Color(245, 158, 11)); // Amber color
+        btnDelete = createFormButton("Nonaktifkan", new Color(245, 158, 11)); 
         btnDelete.setIcon(IconUtils.getIcon("trash", 14, Color.WHITE));
-        btnRealDelete = createFormButton("Hapus Permanen", new Color(220, 38, 38)); // Red color
+        btnRealDelete = createFormButton("Hapus Permanen", new Color(220, 38, 38)); 
         btnRealDelete.setIcon(IconUtils.getIcon("trash", 14, Color.WHITE));
         btnClear = new JButton("Reset");
         btnClear.setIcon(IconUtils.getIcon("reset", 14, new Color(100, 116, 139)));
@@ -275,7 +260,6 @@ public class StudentPanel extends JPanel {
         formCard.add(Box.createRigidArea(new Dimension(0, 8)));
         formCard.add(btnClear);
 
-        // Spacer at bottom
         formCard.add(Box.createVerticalGlue());
 
         btnAdd.addActionListener(e -> addStudent());
@@ -286,7 +270,6 @@ public class StudentPanel extends JPanel {
 
         clearForm();
 
-        // Wrapper to fix form width
         JPanel formWrapper = new JPanel(new BorderLayout());
         formWrapper.setOpaque(false);
         formWrapper.setPreferredSize(new Dimension(320, 0));
@@ -350,13 +333,11 @@ public class StudentPanel extends JPanel {
         return btn;
     }
 
-    // =================== DATA ===================
-
     public void loadData() {
         studentList.clear();
         allRows.clear();
         String searchQuery = txtSearch != null ? txtSearch.getText().trim() : "";
-        
+
         String sql = "SELECT * FROM siswa";
         if (!searchQuery.isEmpty()) {
             sql += " WHERE nis LIKE ? OR nama LIKE ?";
@@ -365,7 +346,7 @@ public class StudentPanel extends JPanel {
 
         try (Connection conn = DBHelper.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            
+
             if (!searchQuery.isEmpty()) {
                 ps.setString(1, "%" + searchQuery + "%");
                 ps.setString(2, "%" + searchQuery + "%");
@@ -383,7 +364,7 @@ public class StudentPanel extends JPanel {
                         rs.getBoolean("is_active")
                     );
                     studentList.add(s);
-                    
+
                     allRows.add(new Object[]{
                         s.getId(),
                         s.getNis(),
@@ -408,10 +389,10 @@ public class StudentPanel extends JPanel {
     private void showPage(int page) {
         currentPage = page;
         tableModel.setRowCount(0);
-        
+
         int start = (page - 1) * ROWS_PER_PAGE;
         int end = Math.min(start + ROWS_PER_PAGE, allRows.size());
-        
+
         for (int i = start; i < end; i++) {
             tableModel.addRow(allRows.get(i));
         }
@@ -476,8 +457,6 @@ public class StudentPanel extends JPanel {
         return btn;
     }
 
-    // =================== FORM ACTIONS ===================
-
     private void populateFormFromRow(int row) {
         int studentId = (int) tableModel.getValueAt(row, 0);
         for (Student s : studentList) {
@@ -522,12 +501,12 @@ public class StudentPanel extends JPanel {
         String sql = "INSERT INTO siswa (nis, nama, kelas, saldo_tabungan) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBHelper.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            
+
             ps.setString(1, nis);
             ps.setString(2, name);
             ps.setString(3, cls);
             ps.setDouble(4, initialSavings);
-            
+
             int affectedRows = ps.executeUpdate();
             if (affectedRows > 0) {
                 int newStudentId = -1;
@@ -536,7 +515,7 @@ public class StudentPanel extends JPanel {
                         newStudentId = generatedKeys.getInt(1);
                     }
                 }
-                
+
                 if (initialSavings > 0 && newStudentId != -1) {
                     String logTransSql = "INSERT INTO transaksi_tabungan (siswa_id, jenis_transaksi, jumlah, keterangan) VALUES (?, 'SIMPAN', ?, 'Setoran Awal Registrasi')";
                     try (PreparedStatement logPs = conn.prepareStatement(logTransSql)) {
@@ -570,11 +549,11 @@ public class StudentPanel extends JPanel {
         String sql = "UPDATE siswa SET nama = ?, kelas = ? WHERE id = ?";
         try (Connection conn = DBHelper.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            
+
             ps.setString(1, name);
             ps.setString(2, cls);
             ps.setInt(3, selectedStudentId);
-            
+
             int affectedRows = ps.executeUpdate();
             if (affectedRows > 0) {
                 JOptionPane.showMessageDialog(this, "Data siswa berhasil diubah!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
@@ -613,7 +592,7 @@ public class StudentPanel extends JPanel {
             String sql = "UPDATE siswa SET is_active = ? WHERE id = ?";
             try (Connection conn = DBHelper.getConnection();
                  PreparedStatement ps = conn.prepareStatement(sql)) {
-                
+
                 ps.setBoolean(1, toActive);
                 ps.setInt(2, studentId);
                 int affectedRows = ps.executeUpdate();
@@ -631,7 +610,7 @@ public class StudentPanel extends JPanel {
 
     private void realDeleteStudent() {
         if (selectedStudentId == -1) return;
-        
+
         int confirm = JOptionPane.showConfirmDialog(
             this, 
             "Apakah Anda yakin ingin menghapus siswa ini secara PERMANEN?\nCatatan: Jika siswa ini memiliki riwayat tabungan, data transaksinya juga akan ikut terhapus!", 
@@ -644,7 +623,7 @@ public class StudentPanel extends JPanel {
             String sql = "DELETE FROM siswa WHERE id = ?";
             try (Connection conn = DBHelper.getConnection();
                  PreparedStatement ps = conn.prepareStatement(sql)) {
-                
+
                 ps.setInt(1, selectedStudentId);
                 int affectedRows = ps.executeUpdate();
                 if (affectedRows > 0) {
@@ -667,15 +646,13 @@ public class StudentPanel extends JPanel {
         txtClass.setText("");
         txtInitialSavings.setText("0");
         txtInitialSavings.setEnabled(true);
-        
+
         tblStudents.clearSelection();
         btnAdd.setEnabled(true);
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
         btnRealDelete.setEnabled(false);
     }
-
-    // =================== CELL RENDERER ===================
 
     class StudentCellRenderer extends DefaultTableCellRenderer {
         @Override
@@ -737,3 +714,4 @@ public class StudentPanel extends JPanel {
         }
     }
 }
+

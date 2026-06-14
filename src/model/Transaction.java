@@ -59,3 +59,4 @@ public abstract class Transaction {
 
     public abstract boolean processTransaction(Connection conn) throws SQLException;
 }
+

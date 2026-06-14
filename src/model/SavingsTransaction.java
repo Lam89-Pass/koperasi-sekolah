@@ -88,7 +88,7 @@ public class SavingsTransaction extends Transaction implements PrintableReceipt 
             insertStmt.setDouble(3, amount);
             insertStmt.setTimestamp(4, timestamp);
             insertStmt.setString(5, description);
-            
+
             int affectedRows = insertStmt.executeUpdate();
             if (affectedRows == 0) {
                 return false;
@@ -136,3 +136,4 @@ public class SavingsTransaction extends Transaction implements PrintableReceipt 
         return receipt.toString();
     }
 }
+

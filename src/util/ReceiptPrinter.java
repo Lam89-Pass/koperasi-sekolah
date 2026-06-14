@@ -23,16 +23,15 @@ public class ReceiptPrinter implements Printable {
     public void printReceipt() {
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(this);
-        
-        // Custom paper size for thermal printer (e.g. 58mm width)
+
         PageFormat pf = job.defaultPage();
         Paper paper = new Paper();
-        double width = 58 * 2.83465; // 58mm in points
-        double height = 150 * 2.83465; // 150mm height (dynamic ideally)
+        double width = 58 * 2.83465; 
+        double height = 150 * 2.83465; 
         paper.setSize(width, height);
         paper.setImageableArea(10, 10, width - 20, height - 20);
         pf.setPaper(paper);
-        
+
         job.setPrintable(this, pf);
 
         boolean doPrint = job.printDialog();
@@ -58,12 +57,10 @@ public class ReceiptPrinter implements Printable {
         int x = 10;
         int width = (int) pf.getImageableWidth();
 
-        // Fonts
         Font fontTitle = new Font("Monospaced", Font.BOLD, 12);
         Font fontNormal = new Font("Monospaced", Font.PLAIN, 9);
         Font fontBold = new Font("Monospaced", Font.BOLD, 9);
 
-        // Header
         g2d.setFont(fontTitle);
         FontMetrics fmTitle = g2d.getFontMetrics();
         String title = "KOPERASI SEKOLAH";
@@ -79,7 +76,6 @@ public class ReceiptPrinter implements Printable {
         g2d.drawLine(x, y, width - x, y);
         y += 15;
 
-        // Transaction Info
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         g2d.drawString("Tgl  : " + sdf.format(new java.util.Date()), x, y);
         y += 12;
@@ -96,7 +92,6 @@ public class ReceiptPrinter implements Printable {
         g2d.drawLine(x, y, width - x, y);
         y += 15;
 
-        // Items
         for (Map.Entry<Product, Integer> entry : transaction.getItems().entrySet()) {
             Product p = entry.getKey();
             int qty = entry.getValue();
@@ -104,10 +99,10 @@ public class ReceiptPrinter implements Printable {
 
             g2d.drawString(p.getName(), x, y);
             y += 12;
-            
+
             String qtyStr = qty + "x @" + String.format("%,.0f", p.getPrice());
             String subStr = String.format("%,.0f", subtotal);
-            
+
             g2d.drawString(qtyStr, x + 10, y);
             g2d.drawString(subStr, width - x - fmNormal.stringWidth(subStr), y);
             y += 15;
@@ -116,21 +111,20 @@ public class ReceiptPrinter implements Printable {
         g2d.drawLine(x, y, width - x, y);
         y += 15;
 
-        // Total
         g2d.setFont(fontBold);
         g2d.drawString("TOTAL:", x, y);
         String totStr = "Rp " + String.format("%,.0f", transaction.getAmount());
         g2d.drawString(totStr, width - x - g2d.getFontMetrics().stringWidth(totStr), y);
         y += 15;
-        
+
         g2d.setFont(fontNormal);
         g2d.drawString("Bayar: " + transaction.getPaymentMethod(), x, y);
         y += 20;
 
-        // Footer
         String footer = "Terima Kasih";
         g2d.drawString(footer, (width - fmNormal.stringWidth(footer)) / 2, y);
 
         return PAGE_EXISTS;
     }
 }
+

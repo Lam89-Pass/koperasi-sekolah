@@ -9,7 +9,7 @@ import java.awt.event.*;
 public class MainFrame extends JFrame {
     private JPanel contentPanel;
     private CardLayout cardLayout;
-    
+
     private DashboardPanel dashboardPanel;
     private StudentPanel studentPanel;
     private SavingsPanel savingsPanel;
@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
     private JPanel sidebar;
     private JLabel lblPageTitle;
     private JLabel lblPageSubtitle;
-    
+
     private JButton btnDashboard;
     private JButton btnStudent;
     private JButton btnSavings;
@@ -34,7 +34,7 @@ public class MainFrame extends JFrame {
     private final Color activeBtnBg = new Color(29, 78, 216);
     private final Color inactiveBtnBg = new Color(21, 34, 56);
     private final Color headerBg = Color.WHITE;
-    
+
     private User loggedInUser;
 
     public MainFrame(User loggedInUser) {
@@ -57,7 +57,7 @@ public class MainFrame extends JFrame {
         contentPanel = new JPanel(cardLayout);
         contentPanel.setBackground(contentBg);
         rightWrapper.add(contentPanel, BorderLayout.CENTER);
-        
+
         add(rightWrapper, BorderLayout.CENTER);
 
         dashboardPanel = new DashboardPanel(this);
@@ -98,7 +98,6 @@ public class MainFrame extends JFrame {
         leftHeader.add(lblPageSubtitle);
         header.add(leftHeader, BorderLayout.WEST);
 
-        // Profile section (clickable with logout popup)
         JPanel rightHeader = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         rightHeader.setOpaque(false);
 
@@ -108,12 +107,12 @@ public class MainFrame extends JFrame {
         lblProfileName.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblProfileName.setForeground(new Color(30, 41, 59));
         lblProfileName.setHorizontalAlignment(SwingConstants.RIGHT);
-        
+
         JLabel lblProfileRole = new JLabel(loggedInUser.getRole());
         lblProfileRole.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lblProfileRole.setForeground(new Color(100, 116, 139));
         lblProfileRole.setHorizontalAlignment(SwingConstants.RIGHT);
-        
+
         profileInfo.add(lblProfileName);
         profileInfo.add(lblProfileRole);
 
@@ -121,7 +120,6 @@ public class MainFrame extends JFrame {
 
         JLabel lblArrow = new JLabel(IconUtils.getIcon("arrow-down", 14, new Color(148, 163, 184)));
 
-        // Create popup menu for logout
         JPopupMenu profileMenu = new JPopupMenu();
         profileMenu.setBackground(Color.WHITE);
         profileMenu.setBorder(BorderFactory.createCompoundBorder(
@@ -159,7 +157,6 @@ public class MainFrame extends JFrame {
         });
         profileMenu.add(menuLogout);
 
-        // Make profile area clickable
         JPanel profileClickable = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 5)) {
             private boolean isHovered = false;
             {
@@ -210,24 +207,23 @@ public class MainFrame extends JFrame {
         JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 20));
         headerPanel.setOpaque(false);
         headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
-        
-        // Koperasi icon using a proper cooperation symbol
+
         JLabel brandIcon = new JLabel(IconUtils.getIcon("koperasi", 38, new Color(46, 204, 113)));
-        
+
         JPanel titlePanel = new JPanel(new GridLayout(2, 1));
         titlePanel.setOpaque(false);
-        
+
         JLabel brandTitle = new JLabel("KOPERASI");
         brandTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
         brandTitle.setForeground(Color.WHITE);
-        
+
         JLabel brandSubtitle = new JLabel("SEKOLAH");
         brandSubtitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         brandSubtitle.setForeground(new Color(46, 204, 113));
-        
+
         titlePanel.add(brandTitle);
         titlePanel.add(brandSubtitle);
-        
+
         headerPanel.add(brandIcon);
         headerPanel.add(titlePanel);
 
@@ -269,7 +265,6 @@ public class MainFrame extends JFrame {
 
         panel.add(menuPanel, BorderLayout.CENTER);
 
-        // Footer: only version label
         JPanel footerPanel = new JPanel(new BorderLayout());
         footerPanel.setOpaque(false);
         footerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -314,7 +309,7 @@ public class MainFrame extends JFrame {
         btn.setBorder(BorderFactory.createEmptyBorder(12, 15, 12, 15));
         btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
         btn.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
+
         return btn;
     }
 
@@ -385,3 +380,4 @@ public class MainFrame extends JFrame {
         showPanel("PRODUCTS", btnProduct);
     }
 }
+

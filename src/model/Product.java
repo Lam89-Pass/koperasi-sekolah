@@ -77,3 +77,4 @@ public class Product {
         return name + " [" + productCode + "] - Rp" + String.format("%,.0f", price);
     }
 }
+

@@ -6,7 +6,7 @@ Berikut adalah panduan lengkap cara menyiapkan database untuk menjalankan aplika
 
 ## Persiapan Awal
 Pastikan Anda sudah menginstal salah satu aplikasi Web Server lokal berikut:
-- **XAMPP** (disarankan)
+- **XAMPP**
 - **Laragon**
 - Atau instalasi **MySQL Server** / **MariaDB** secara langsung.
 

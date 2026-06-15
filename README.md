@@ -48,8 +48,8 @@ Tugas Besar Pemrograman Berorientasi Objek (PBO)
 **Universitas Pasundan - Fakultas Teknik - Program Studi Teknik Informatika (2026)**
 
 **Disusun Oleh:**
-- **Muhamad Nur Salam** (Ketua) - 243040083
-- **Grisvi Taus We** (Anggota) - 243040086
+- **Muhamad Nur Salam**
+- **Ghryshvi Taushiyah Dzickra**
 
 **Dosen Pengampu:** 
 ADE SUKENDAR, ST.,MT 
